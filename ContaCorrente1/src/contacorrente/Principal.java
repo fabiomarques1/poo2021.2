@@ -5,49 +5,48 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 public class Principal {
-    
-    static Conta minhaConta;
-    static Conta outraConta;
 
-    public static void main(String[] args) {
-        
-        UIManager.put("OptionPane.noButtonText" , "Não");
-        UIManager.put("OptionPane.yesButtonText", "Sim");
-        
+    public static void main(String[] args) {   
         String teclado;
+        double valorMonetario;
+        
+        Conta minhaConta = cadastrarConta();
         
         loopMenu : do {
             int opcao;
             teclado = JOptionPane.showInputDialog("Informe a opção desejada: \n"
-                    + "1- Casdastrar Conta\n"
-                    + "2- Depósito\n"
-                    + "3- Saque\n"
-                    + "4- Transferência\n"
-                    + "5- Saldo\n"
-                    + "6- Sair");
+                    + "1- Depósito\n"
+                    + "2- Saque\n"
+                    + "3- Transferência\n"
+                    + "4- Saldo\n"
+                    + "5- Sair");
             
             opcao = Integer.parseInt(teclado);
-            
             switch(opcao) {
-                case 1 : minhaConta = cadastrarConta();
+                case 1 : teclado = JOptionPane.showInputDialog("Informe o valor do depósito:");
+                         valorMonetario = Double.parseDouble(teclado);
+                         minhaConta.depositar(valorMonetario);
                          break;
-                case 2 : depositar();
+                case 2 : teclado = JOptionPane.showInputDialog("Informe o valor do saque:");
+                         valorMonetario = Double.parseDouble(teclado);
+                         minhaConta.sacar(valorMonetario);
                          break;
-                case 3 : sacar();
+                case 3 : Conta outraConta = cadastrarConta();
+                         teclado = JOptionPane.showInputDialog("Informe o valor do transferência:");
+                         valorMonetario = Double.parseDouble(teclado);
+                         minhaConta.transferir(valorMonetario, outraConta);
+                         System.out.println("Minha conta " + minhaConta);
+                         System.out.println("Outra conta " + outraConta);
                          break;
-                case 4 : transferir();
+                case 4 : System.out.println("Minha conta " + minhaConta);
                          break;
-                case 5 : mostrarSaldo();
-                         break;
-                case 6 : int resposta = JOptionPane.showConfirmDialog(null, 
+                case 5 : int resposta = JOptionPane.showConfirmDialog(null, 
                         "Deseja realmente sair?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
                         if (resposta == JOptionPane.YES_OPTION) {
                             break loopMenu;
                         }
                         break;
-                default : System.out.println("Opção Inválida!");
-                    
-                  
+                default : System.out.println("Opção Inválida!");        
             } 
         
         } while(true);
@@ -59,54 +58,20 @@ public class Principal {
         Conta conta = new Conta();
         String teclado;
         teclado = JOptionPane.showInputDialog("Informe o código do banco:");
-        conta.codigoBanco = Integer.parseInt(teclado);
+        conta.setCodigoBanco(Integer.parseInt(teclado));
         teclado = JOptionPane.showInputDialog("Informe o nome do banco:");
-        conta.nomeBanco = teclado;
+        conta.setNomeBanco(teclado);
         teclado = JOptionPane.showInputDialog("Informe o número da agência:");
-        conta.numeroAgencia = Integer.parseInt(teclado);
+        conta.setNumeroAgencia(Integer.parseInt(teclado));
         teclado = JOptionPane.showInputDialog("Informe o número da conta:");
-        conta.numeroConta = Integer.parseInt(teclado);
+        conta.setNumeroConta(Integer.parseInt(teclado));
         teclado = JOptionPane.showInputDialog("Informe o cpf do titular:");
-        conta.cpfTitular = Long.parseLong(teclado);
+        conta.setCpfTitular(Long.parseLong(teclado));
         teclado = JOptionPane.showInputDialog("Informe o nome do titular");
-        conta.nomeTitular = teclado;
+        conta.setNomeTitular(teclado);
         
         return conta;
 
     }
     
-    public static void depositar() {
-        String teclado;
-        double valorMonetario;
-        
-        teclado = JOptionPane.showInputDialog("Informe o valor do depósito:");
-        valorMonetario = Double.parseDouble(teclado);
-        minhaConta.depositar(valorMonetario);
-    }
-    
-    public static void sacar() {
-        String teclado;
-        double valorMonetario;
-        
-        teclado = JOptionPane.showInputDialog("Informe o valor do saque:");
-        valorMonetario = Double.parseDouble(teclado);
-        minhaConta.sacar(valorMonetario);
-    }
-    
-    public static void transferir() {
-        String teclado;
-        double valorMonetario;
-        outraConta = cadastrarConta();
-        
-        teclado = JOptionPane.showInputDialog("Informe o valor do transferência:");
-        valorMonetario = Double.parseDouble(teclado);
-        minhaConta.transferir(valorMonetario, outraConta);
-        
-    }
-    
-    public static void mostrarSaldo() {
-        System.out.println("Minha conta" + minhaConta);
-        System.out.println("Outra conta" + outraConta);
-
-    }
 }
